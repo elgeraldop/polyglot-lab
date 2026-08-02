@@ -1,0 +1,2439 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Polyglot Lab – Inglés + Italiano</title>
+  <style>
+:root {
+  --bg: #0f1115;
+  --bg-card: #1a1d24;
+  --bg-hover: #242830;
+  --text: #e8eaed;
+  --text-muted: #9aa0a6;
+  --primary: #6c9eff;
+  --primary-hover: #8bb3ff;
+  --success: #34d399;
+  --warning: #fbbf24;
+  --danger: #f87171;
+  --border: #2d3139;
+  --radius: 12px;
+  --shadow: 0 4px 24px rgba(0,0,0,0.4);
+}
+
+[data-theme="light"] {
+  --bg: #f7f8fa;
+  --bg-card: #ffffff;
+  --bg-hover: #f0f2f5;
+  --text: #1a1d24;
+  --text-muted: #5f6368;
+  --primary: #3b82f6;
+  --primary-hover: #2563eb;
+  --border: #e2e5ea;
+  --shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+#app {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 20px 40px;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 32px;
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  z-index: 100;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+.logo-icon {
+  color: var(--primary);
+  font-size: 1.4rem;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.stats {
+  display: flex;
+  gap: 12px;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.stat {
+  background: var(--bg-card);
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+}
+
+.btn-icon {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-icon:hover {
+  background: var(--bg-hover);
+}
+
+/* Views */
+.view {
+  display: none;
+  animation: fadeIn 0.3s ease;
+}
+
+.view.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Hero */
+.hero {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.hero h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+}
+
+/* Language cards */
+.lang-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+@media (max-width: 600px) {
+  .lang-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+.lang-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px 24px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow);
+}
+
+.lang-card:hover {
+  border-color: var(--primary);
+  transform: translateY(-2px);
+}
+
+.lang-flag {
+  font-size: 2.5rem;
+  margin-bottom: 12px;
+}
+
+.lang-card h2 {
+  font-size: 1.4rem;
+  margin-bottom: 4px;
+}
+
+.lang-card p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-bottom: 16px;
+}
+
+.progress-bar {
+  height: 8px;
+  background: var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--success));
+  border-radius: 4px;
+  transition: width 0.4s ease;
+}
+
+.progress-text {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* Info cards */
+.quick-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+@media (max-width: 600px) {
+  .quick-info {
+    grid-template-columns: 1fr;
+  }
+}
+
+.info-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+}
+
+.info-card h3 {
+  margin-bottom: 12px;
+  font-size: 1.1rem;
+}
+
+.info-card ul {
+  padding-left: 20px;
+  color: var(--text-muted);
+}
+
+.info-card li {
+  margin-bottom: 6px;
+}
+
+.info-card p {
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+/* Buttons */
+.btn {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  border: none;
+  transition: all 0.15s ease;
+  font-family: inherit;
+}
+
+.btn.primary {
+  background: var(--primary);
+  color: #fff;
+}
+
+.btn.primary:hover {
+  background: var(--primary-hover);
+}
+
+.btn.secondary {
+  background: var(--bg-card);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.btn.secondary:hover {
+  background: var(--bg-hover);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-back {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 0.95rem;
+  margin-bottom: 20px;
+  padding: 0;
+  font-family: inherit;
+}
+
+.btn-back:hover {
+  color: var(--primary);
+}
+
+/* Units grid */
+.units-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.unit-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.unit-card:hover {
+  border-color: var(--primary);
+}
+
+.unit-card.completed {
+  border-color: var(--success);
+}
+
+.unit-card .unit-num {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.unit-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+}
+
+.unit-card p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.unit-card .check {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  color: var(--success);
+  font-size: 1.2rem;
+  display: none;
+}
+
+.unit-card.completed .check {
+  display: block;
+}
+
+/* Lessons list */
+.lessons-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.lesson-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.lesson-item:hover {
+  border-color: var(--primary);
+  background: var(--bg-hover);
+}
+
+.lesson-item.completed {
+  border-color: var(--success);
+}
+
+.lesson-item h3 {
+  font-size: 1rem;
+}
+
+.lesson-item span {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* Lesson content */
+.lesson-header {
+  margin-bottom: 28px;
+}
+
+.lesson-badge {
+  display: inline-block;
+  background: var(--primary);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
+  margin-bottom: 8px;
+}
+
+.lesson-content {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+  margin-bottom: 24px;
+}
+
+.lesson-content h2 {
+  font-size: 1.3rem;
+  margin: 24px 0 12px;
+  color: var(--primary);
+}
+
+.lesson-content h2:first-child {
+  margin-top: 0;
+}
+
+.lesson-content p {
+  margin-bottom: 12px;
+}
+
+.lesson-content ul, .lesson-content ol {
+  padding-left: 24px;
+  margin-bottom: 16px;
+}
+
+.lesson-content li {
+  margin-bottom: 6px;
+}
+
+.comparison-box {
+  background: var(--bg);
+  border-left: 4px solid var(--warning);
+  padding: 14px 18px;
+  margin: 16px 0;
+  border-radius: 0 8px 8px 0;
+}
+
+.comparison-box strong {
+  color: var(--warning);
+}
+
+.vocab-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 16px 0;
+}
+
+@media (max-width: 500px) {
+  .vocab-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.vocab-item {
+  background: var(--bg);
+  padding: 10px 14px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.95rem;
+}
+
+.vocab-item .target {
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.exercise {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin: 20px 0;
+}
+
+.exercise h3 {
+  font-size: 1.05rem;
+  margin-bottom: 14px;
+}
+
+.exercise-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.option-btn {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 12px 16px;
+  border-radius: 8px;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.95rem;
+  transition: all 0.15s ease;
+}
+
+.option-btn:hover:not(:disabled) {
+  border-color: var(--primary);
+}
+
+.option-btn.correct {
+  border-color: var(--success);
+  background: rgba(52, 211, 153, 0.15);
+}
+
+.option-btn.wrong {
+  border-color: var(--danger);
+  background: rgba(248, 113, 113, 0.15);
+}
+
+.option-btn:disabled {
+  cursor: default;
+}
+
+.feedback {
+  margin-top: 12px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  display: none;
+}
+
+.feedback.show {
+  display: block;
+}
+
+.feedback.correct {
+  background: rgba(52, 211, 153, 0.15);
+  color: var(--success);
+}
+
+.feedback.wrong {
+  background: rgba(248, 113, 113, 0.15);
+  color: var(--danger);
+}
+
+.fill-input {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 1rem;
+  width: 100%;
+  max-width: 320px;
+  font-family: inherit;
+  margin-bottom: 12px;
+}
+
+.fill-input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.lesson-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+/* Certificate */
+.certificate {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 40px;
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto 24px;
+}
+
+.cert-border {
+  border: 3px double var(--primary);
+  padding: 40px 30px;
+  border-radius: 8px;
+}
+
+.certificate h2 {
+  font-size: 1.6rem;
+  margin-bottom: 4px;
+  color: var(--primary);
+}
+
+.cert-sub {
+  color: var(--text-muted);
+  margin-bottom: 24px;
+  font-size: 0.95rem;
+}
+
+.certificate h3 {
+  font-size: 1.5rem;
+  margin: 12px 0;
+}
+
+.cert-date {
+  margin-top: 20px;
+  color: var(--text-muted);
+}
+
+.cert-skills {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 16px;
+}
+
+.cert-seal {
+  font-size: 2.5rem;
+  color: var(--primary);
+  margin-top: 20px;
+}
+
+.cert-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 30px 0 10px;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  border-top: 1px solid var(--border);
+  margin-top: 40px;
+}
+
+/* Print styles for certificate */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #view-certificate, #view-certificate * {
+    visibility: visible;
+  }
+  #view-certificate {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+  .btn-back, .cert-actions, .header, .footer {
+    display: none !important;
+  }
+}
+  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div id="app">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo" onclick="showView('dashboard')">
+        <span class="logo-icon">◆</span>
+        <span class="logo-text">Polyglot Lab</span>
+      </div>
+      <div class="header-right">
+        <div class="stats">
+          <span class="stat" title="Lecciones completadas"><span id="lessons-done">0</span> ✓</span>
+          <span class="stat" title="Puntos"><span id="points">0</span> pts</span>
+          <span class="stat" title="Racha"><span id="streak">0</span> 🔥</span>
+        </div>
+        <button class="btn-icon" onclick="toggleTheme()" title="Cambiar tema">🌓</button>
+        <button class="btn-icon" onclick="resetProgress()" title="Reiniciar progreso" style="font-size:0.9rem">↺</button>
+      </div>
+    </header>
+
+    <!-- Main content -->
+    <main id="main">
+      <!-- Dashboard View -->
+      <section id="view-dashboard" class="view active">
+        <div class="hero">
+          <h1>Tu laboratorio personal de idiomas</h1>
+          <p class="subtitle">Inglés + Italiano · A1 → Experto · Diseñado para hispanohablantes</p>
+        </div>
+
+        <div class="lang-cards">
+          <div class="lang-card" onclick="selectLanguage('en')">
+            <div class="lang-flag">🇬🇧</div>
+            <h2>Inglés</h2>
+            <p>English from A1 to C2</p>
+            <div class="progress-bar"><div class="progress-fill" id="progress-en" style="width: 0%"></div></div>
+            <span class="progress-text" id="progress-en-text">0% completado</span>
+          </div>
+          <div class="lang-card" onclick="selectLanguage('it')">
+            <div class="lang-flag">🇮🇹</div>
+            <h2>Italiano</h2>
+            <p>Italiano da A1 a C2</p>
+            <div class="progress-bar"><div class="progress-fill" id="progress-it" style="width: 0%"></div></div>
+            <span class="progress-text" id="progress-it-text">0% completado</span>
+          </div>
+        </div>
+
+        <div class="quick-info">
+          <div class="info-card">
+            <h3>Cómo funciona</h3>
+            <ul>
+              <li>Elige idioma → Unidad → Lección</li>
+              <li>Explicaciones claras con comparación al español</li>
+              <li>Ejercicios interactivos + feedback inmediato</li>
+              <li>Progreso guardado automáticamente en tu navegador</li>
+              <li>Certificado al completar cada nivel</li>
+            </ul>
+          </div>
+          <div class="info-card">
+            <h3>Estado actual</h3>
+            <p><strong>A1 completo</strong></p>
+            <p>8 unidades con lecciones + ejercicios (incl. ordenar frases)</p>
+            <p>Trampas típicas, notas culturales y certificado personalizado.</p>
+            <p style="margin-top:12px"><button class="btn secondary" onclick="resetProgress()" style="width:100%">Reiniciar todo el progreso</button></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Units View -->
+      <section id="view-units" class="view">
+        <button class="btn-back" onclick="showView('dashboard')">← Volver</button>
+        <h1 id="units-title">Unidades A1</h1>
+        <p id="units-subtitle" class="subtitle"></p>
+        <div id="units-list" class="units-grid"></div>
+      </section>
+
+      <!-- Lessons List View -->
+      <section id="view-lessons" class="view">
+        <button class="btn-back" onclick="showUnits()">← Volver a unidades</button>
+        <h1 id="lessons-title">Lecciones</h1>
+        <div id="lessons-list" class="lessons-list"></div>
+      </section>
+
+      <!-- Lesson View -->
+      <section id="view-lesson" class="view">
+        <button class="btn-back" onclick="showLessons()">← Volver a lecciones</button>
+        <div class="lesson-header">
+          <span class="lesson-badge" id="lesson-badge"></span>
+          <h1 id="lesson-title"></h1>
+        </div>
+        <div id="lesson-content" class="lesson-content"></div>
+        <div class="lesson-nav">
+          <button class="btn secondary" id="btn-prev-lesson" onclick="prevLesson()" disabled>Anterior</button>
+          <button class="btn primary" id="btn-next-lesson" onclick="nextLesson()">Siguiente</button>
+        </div>
+      </section>
+
+      <!-- Certificate View -->
+      <section id="view-certificate" class="view">
+        <button class="btn-back" onclick="showView('dashboard')">← Volver</button>
+        <div class="certificate" id="certificate">
+          <div class="cert-border">
+            <h2>Certificado de Finalización</h2>
+            <p class="cert-sub">Polyglot Lab</p>
+            <p>Se certifica que</p>
+            <h3 id="cert-name">Geraldo Pastor Meneses Espinoza</h3>
+            <p>ha completado satisfactoriamente el nivel</p>
+            <h3 id="cert-level">A1 – Inglés</h3>
+            <p class="cert-date" id="cert-date"></p>
+            <p class="cert-skills">Habilidades: Presentaciones · Rutinas · Comida · Ciudad · Hobbies · Compras · Clima</p>
+            <div class="cert-seal">◆</div>
+          </div>
+        </div>
+        <div class="cert-actions">
+          <button class="btn primary" onclick="window.print()">Imprimir / Guardar PDF</button>
+          <button class="btn secondary" onclick="showView('dashboard')">Cerrar</button>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>Polyglot Lab · Prototipo personal · Progreso guardado localmente</p>
+    </footer>
+  </div>
+
+  <script>
+// ====================== STATE ======================
+const state = {
+  language: null,      // 'en' | 'it'
+  currentUnit: null,
+  currentLessonIndex: 0,
+  points: 0,
+  streak: 0,
+  progress: {
+    en: {},  // unitId: { lessons: { lessonId: true }, completed: false }
+    it: {}
+  }
+};
+
+// ====================== DATA ======================
+const curriculum = {
+  en: {
+    name: "Inglés",
+    flag: "🇬🇧",
+    units: [
+      {
+        id: "a1u1",
+        level: "A1",
+        number: 1,
+        title: "Presentaciones y saludos",
+        description: "Presentarse, saludar y dar información personal básica",
+        lessons: [
+          {
+            id: "a1u1l1",
+            title: "Saludos y presentaciones",
+            type: "explanation",
+            content: `
+              <h2>1. Saludos básicos</h2>
+              <p>En inglés los saludos cambian según el momento del día y el nivel de formalidad:</p>
+              <div class="vocab-grid">
+                <div class="vocab-item"><span class="target">Hello / Hi</span><span>Hola</span></div>
+                <div class="vocab-item"><span class="target">Good morning</span><span>Buenos días</span></div>
+                <div class="vocab-item"><span class="target">Good afternoon</span><span>Buenas tardes</span></div>
+                <div class="vocab-item"><span class="target">Good evening</span><span>Buenas noches (saludo)</span></div>
+                <div class="vocab-item"><span class="target">Good night</span><span>Buenas noches (despedida)</span></div>
+                <div class="vocab-item"><span class="target">Goodbye / Bye</span><span>Adiós</span></div>
+                <div class="vocab-item"><span class="target">See you later</span><span>Hasta luego</span></div>
+                <div class="vocab-item"><span class="target">Nice to meet you</span><span>Encantado/a</span></div>
+              </div>
+
+              <h2>2. El verbo <em>to be</em></h2>
+              <p>Es el verbo más importante del inglés. Equivale a <strong>ser</strong> y <strong>estar</strong> del español.</p>
+              <div class="vocab-grid">
+                <div class="vocab-item"><span class="target">I am</span><span>Yo soy / estoy</span></div>
+                <div class="vocab-item"><span class="target">You are</span><span>Tú eres / estás</span></div>
+                <div class="vocab-item"><span class="target">He / She / It is</span><span>Él / Ella es / está</span></div>
+                <div class="vocab-item"><span class="target">We are</span><span>Nosotros somos / estamos</span></div>
+                <div class="vocab-item"><span class="target">They are</span><span>Ellos son / están</span></div>
+              </div>
+
+              <div class="comparison-box">
+                <strong>⚠️ Comparación con el español:</strong><br>
+                En español distinguimos <em>ser</em> y <em>estar</em>. En inglés solo existe <em>to be</em>. 
+                Ejemplo: “Soy estudiante” y “Estoy cansado” → ambos usan <em>I am</em>.
+              </div>
+
+              <h2>3. Preguntas básicas</h2>
+              <ul>
+                <li><strong>What is your name?</strong> → ¿Cómo te llamas?</li>
+                <li><strong>Where are you from?</strong> → ¿De dónde eres?</li>
+                <li><strong>How old are you?</strong> → ¿Cuántos años tienes?</li>
+                <li><strong>What do you do?</strong> → ¿A qué te dedicas?</li>
+              </ul>
+
+              <div class="comparison-box">
+                <strong>⚠️ Trampa típica:</strong><br>
+                Nunca digas <em>“I have 25 years”</em>. Se dice <strong>I am 25 years old</strong>.
+              </div>
+            `
+          },
+          {
+            id: "a1u1l2",
+            title: "Ejercicio: Saludos y to be",
+            type: "exercise",
+            content: `
+              <h2>Ejercicio 1 – Elige la respuesta correcta</h2>
+              <div class="exercise" data-exercise="1">
+                <h3>1. ¿Cómo se dice “Encantado de conocerte”?</h3>
+                <div class="exercise-options">
+                  <button class="option-btn" data-correct="false">Good night</button>
+                  <button class="option-btn" data-correct="true">Nice to meet you</button>
+                  <button class="option-btn" data-correct="false">See you later</button>
+                  <button class="option-btn" data-correct="false">How old are you?</button>
+                </div>
+                <div class="feedback"></div>
+              </div>
+
+              <div class="exercise" data-exercise="2">
+                <h3>2. Completa: “She _____ a teacher.”</h3>
+                <div class="exercise-options">
+                  <button class="option-btn" data-correct="false">am</button>
+                  <button class="option-btn" data-correct="false">are</button>
+                  <button class="option-btn" data-correct="true">is</button>
+                  <button class="option-btn" data-correct="false">be</button>
+                </div>
+                <div class="feedback"></div>
+              </div>
+
+              <div class="exercise" data-exercise="3">
+                <h3>3. ¿Cuál es la forma correcta de preguntar la edad?</h3>
+                <div class="exercise-options">
+                  <button class="option-btn" data-correct="false">How many years you have?</button>
+                  <button class="option-btn" data-correct="true">How old are you?</button>
+                  <button class="option-btn" data-correct="false">What age you are?</button>
+                  <button class="option-btn" data-correct="false">You have how many years?</button>
+                </div>
+                <div class="feedback"></div>
+              </div>
+
+              <div class="exercise" data-exercise="4">
+                <h3>4. “I am from Spain” significa:</h3>
+                <div class="exercise-options">
+                  <button class="option-btn" data-correct="true">Soy de España</button>
+                  <button class="option-btn" data-correct="false">Estoy en España</button>
+                  <button class="option-btn" data-correct="false">Voy a España</button>
+                  <button class="option-btn" data-correct="false">Me gusta España</button>
+                </div>
+                <div class="feedback"></div>
+              </div>
+            `
+          },
+          {
+            id: "a1u1l3",
+            title: "Nacionalidades y profesiones",
+            type: "explanation",
+            content: `
+              <h2>Nacionalidades más comunes</h2>
+              <div class="vocab-grid">
+                <div class="vocab-item"><span class="target">Spanish</span><span>español/a</span></div>
+                <div class="vocab-item"><span class="target">English</span><span>inglés/esa</span></div>
+                <div class="vocab-item"><span class="target">American</span><span>americano/a</span></div>
+                <div class="vocab-item"><span class="target">Italian</span><span>italiano/a</span></div>
+                <div class="vocab-item"><span class="target">French</span><span>francés/esa</span></div>
+                <div class="vocab-item"><span class="target">German</span><span>alemán/ana</span></div>
+                <div class="vocab-item"><span class="target">Mexican</span><span>mexicano/a</span></div>
+                <div class="vocab-item"><span class="target">Chinese</span><span>chino/a</span></div>
+              </div>
+
+              <h2>Profesiones básicas</h2>
+              <div class="vocab-grid">
+                <div class="vocab-item"><span class="target">teacher</span><span>profesor/a</span></div>
+                <div class="vocab-item"><span class="target">student</span><span>estudiante</span></div>
+                <div class="vocab-item"><span class="target">doctor</span><span>médico/a</span></div>
+                <div class="vocab-item"><span class="target">engineer</span><span>ingeniero/a</span></div>
+                <div class="vocab-item"><span class="target">nurse</span><span>enfermero/a</span></div>
+                <div class="vocab-item"><span class="target">waiter / waitress</span><span>camarero/a</span></div>
+                <div class="vocab-item"><span class="target">programmer</span><span>programador/a</span></div>
+                <div class="vocab-item"><span class="target">lawyer</span><span>abogado/a</span></div>
+              </div>
+
+              <div class="comparison-box">
+                <strong>Nota:</strong> En inglés las profesiones no cambian de género (excepto algunos casos como waiter/waitress). 
+                Se usa el artículo <em>a/an</em>: “I am a teacher”.
+              </div>
+            `
+          }
+        ]
+      },
+      {
+        id: "a1u2",
+        level: "A1",
+        number: 2,
+        title: "La familia y las personas",
+        description: "Describir familia, aspecto físico y personalidad",
+        lessons: [
+          {
+            id: "a1u2l1",
+            title: "La familia",
+            type: "explanation",
+            content: `
+              <h2>Miembros de la familia</h2>
+              <div class="vocab-grid">
+                <div class="vocab-item"><span class="target">mother / mom</span><span>madre / mamá</span></div>
+                <div class="vocab-item"><span class="target">father / dad</span><span>padre / papá</span></div>
+                <div class="vocab-item"><span class="target">parents</span><span>padres</span></div>
+                <div class="vocab-item"><span class="target">brother</span><span>hermano</span></div>
+                <div class="vocab-item"><span class="target">sister</span><span>hermana</span></div>
+                <div class="vocab-item"><span class="target">son</span><span>hijo</span></div>
+                <div class="vocab-item"><span class="target">daughter</span><span>hija</span></div>
+                <div class="vocab-item"><span class="target">husband</span><span>marido</span></div>
+                <div class="vocab-item"><span class="target">wife</span><span>esposa</span></div>
+                <div class="vocab-item"><span class="target">grandfather</span><span>abuelo</span></div>
+                <div class="vocab-item"><span class="target">grandmother</span><span>abuela</span></div>
+                <div class="vocab-item"><span class="target">uncle / aunt</span><span>tío / tía</span></div>
+              </div>
+
+              <h2>Adjetivos posesivos</h2>
+              <div class="vocab-grid">
+                <div class="vocab-item"><span class="target">my</span><span>mi / mis</span></div>
+                <div class="vocab-item"><span class="target">your</span><span>tu / tus</span></div>
+                <div class="vocab-item"><span class="target">his / her / its</span><span>su / sus</span></div>
+                <div class="vocab-item"><span class="target">our</span><span>nuestro/a/os/as</span></div>
+                <div class="vocab-item"><span class="target">their</span><span>su / sus</span></div>
+              </div>
+
+              <div class="comparison-box">
+                <strong>Diferencia importante:</strong> En inglés los posesivos no cambian de género ni número 
+                (excepto his/her). “My brother” y “My brothers” usan el mismo <em>my</em>.
+              </div>
+            `
+          },
+          {
+            id: "a1u2l2",
+            title: "Ejercicio: Familia y posesivos",
+            type: "exercise",
+            content: `
+              <h2>Ejercicio – Familia</h2>
+              <div class="exercise" data-exercise="1">
+                <h3>1. “This is _____ sister.” (ella)</h3>
+                <div class="exercise-options">
+                  <button class="option-btn" data-correct="false">his</button>
+                  <button class="option-btn" data-correct="true">her</button>
+                  <button class="option-btn" data-correct="false">their</button>
+                  <button class="option-btn" data-correct="false">your</button>
+                </div>
+                <div class="feedback"></div>
+              </div>
+
+              <div class="exercise" data-exercise="2">
+                <h3>2. ¿Cómo se dice “mis padres”?</h3>
+                <div class="exercise-options">
+                  <button class="option-btn" data-correct="true">my parents</button>
+                  <button class="option-btn" data-correct="false">my fathers</button>
+                  <button class="option-btn" data-correct="false">my parent</button>
+                  <button class="option-btn" data-correct="false">the parents my</button>
+                </div>
+                <div class="feedback"></div>
+              </div>
+
+              <div class="exercise" data-exercise="3">
+                <h3>3. “He is my _____.” (hermano)</h3>
+                <div class="exercise-options">
+                  <button class="option-btn" data-correct="false">sister</button>
+                  <button class="option-btn" data-correct="true">brother</button>
+                  <button class="option-btn" data-correct="false">father</button>
+                  <button class="option-btn" data-correct="false">uncle</button>
+                </div>
+                <div class="feedback"></div>
+              </div>
+            `
+          }
+        ]
+      },
+      {
+        id: "a1u3",
+        level: "A1",
+        number: 3,
+        title: "Rutinas diarias",
+        description: "Hablar de la rutina y frecuencias",
+        lessons: [
+          {
+            id: "a1u3l1",
+            title: "Present Simple y rutinas",
+            type: "explanation",
+            content: `
+              <h2>Present Simple – Rutinas</h2>
+              <p>Usamos el <strong>Present Simple</strong> para hablar de hábitos y rutinas.</p>
+              <div class="vocab-grid">
+                <div class="vocab-item"><span class="target">I wake up</span><span>Me despierto</span></div>
+                <div class="vocab-item"><span class="target">I get up</span><span>Me levanto</span></div>
+                <div class="vocab-item"><span class="target">I have breakfast</span><span>Desayuno</span></div>
+                <div class="vocab-item"><span class="target">I go to work / school</span><span>Voy al trabajo / colegio</span></div>
+                <div class="vocab-item"><span class="target">I finish work</span><span>Termino de trabajar</span></div>
+                <div class="vocab-item"><span class="target">I go to bed</span><span>Me acuesto</span></div>
+              </div>
+              <h2>Adverbios de frecuencia</h2>
+              <div class="vocab-grid">
+                <div class="vocab-item"><span class="target">always</span><span>siempre</span></div>
+                <div class="vocab-item"><span class="target">usually</span><span>normalmente</span></div>
+                <div class="vocab-item"><span class="target">often</span><span>a menudo</span></div>
+                <div class="vocab-item"><span class="target">sometimes</span><span>a veces</span></div>
+                <div class="vocab-item"><span class="target">rarely / seldom</span><span>rara vez</span></div>
+                <div class="vocab-item"><span class="target">never</span><span>nunca</span></div>
+              </div>
+              <div class="comparison-box">
+                <strong>⚠️ Trampa típica:</strong><br>
+                En inglés el adverbio de frecuencia va <em>antes</em> del verbo principal:<br>
+                “I <strong>always</strong> wake up early.” (no “I wake up always”).
+              </div>
+              <div class="comparison-box">
+                <strong>Cultura:</strong> En muchos países de habla inglesa el desayuno es más contundente (eggs, toast, cereal) y la cena se suele cenar más temprano que en España o Latinoamérica.
+              </div>
+            `
+          },
+          {
+            id: "a1u3l2",
+            title: "Ejercicio: Rutinas",
+            type: "exercise",
+            content: `
+              <h2>Ejercicios – Rutinas</h2>
+              <div class="exercise" data-exercise="1">
+                <h3>1. “I _____ up at 7 every day.”</h3>
+                <div class="exercise-options">
+                  <button class="option-btn" data-correct="false">wakes</button>
+                  <button class="option-btn" data-correct="true">wake</button>
+                  <button class="option-btn" data-correct="false">waking</button>
+                  <button class="option-btn" data-correct="false">woke</button>
+                </div>
+                <div class="feedback"></div>
+              </div>
+              <div class="exercise" data-exercise="2">
+                <h3>2. Elige la frase correcta:</h3>
+                <div class="exercise-options">
+                  <button class="option-btn" data-correct="false">I go always to bed late.</button>
+                  <button class="option-btn" data-correct="true">I always go to bed late.</button>
+                  <button class="option-btn" data-correct="false">Always I go to bed late.</button>
+                  <button class="option-btn" data-correct="false">I go to bed always late.</button>
+                </div>
+                <div class="feedback"></div>
+              </div>
+              <div class="exercise" data-exercise="3">
+                <h3>3. “She _____ breakfast at 8.”</h3>
+                <div class="exercise-options">
+                  <button class="option-btn" data-correct="false">have</button>
+                  <button class="option-btn" data-correct="true">has</button>
+                  <button class="option-btn" data-correct="false">having</button>
+                  <button class="option-btn" data-correct="false">haves</button>
+                </div>
+                <div class="feedback"></div>
+              </div>
+            `
+          }
+        ]
+      },
+      {
+        id: "a1u4",
+        level: "A1",
+        number: 4,
+        title: "Comida y bebida",
+        description: "Gustos alimentarios y restaurante",
+        lessons: [
+          {
+            id: "a1u4l1",
+            title: "Comida y gustos",
+            type: "explanation",
+            content: `
+              <h2>Vocabulario de comida</h2>
+              <div class="vocab-grid">
+                <div class="vocab-item"><span class="target">breakfast</span><span>desayuno</span></div>
+                <div class="vocab-item"><span class="target">lunch</span><span>almuerzo / comida</span></div>
+                <div class="vocab-item"><span class="target">dinner</span><span>cena</span></div>
+                <div class="vocab-item"><span class="target">bread</span><span>pan</span></div>
+                <div class="vocab-item"><span class="target">cheese</span><span>queso</span></div>
+                <div class="vocab-item"><span class="target">chicken</span><span>pollo</span></div>
+                <div class="vocab-item"><span class="target">fish</span><span>pescado</span></div>
+                <div class="vocab-item"><span class="target">vegetables</span><span>verduras</span></div>
+                <div class="vocab-item"><span class="target">fruit</span><span>fruta</span></div>
+                <div class="vocab-item"><span class="target">water / juice</span><span>agua / zumo</span></div>
+              </div>
+              <h2>Expresar gustos</h2>
+              <p><strong>I like / I love / I hate + noun / -ing</strong></p>
+              <ul>
+                <li>I like pizza.</li>
+                <li>I love cooking.</li>
+                <li>I don’t like fish.</li>
+              </ul>
+              <div class="comparison-box">
+                <strong>⚠️ Trampa:</strong> Después de <em>like / love / hate</em> usamos sustantivo o verbo en <em>-ing</em>. No se dice “I like cook”.
+              </div>
+              <div class="comparison-box">
+                <strong>Cultura:</strong> En Inglaterra es común el “Sunday roast”. En EE.UU. las porciones suelen ser más grandes. “Dinner” puede significar la comida principal del mediodía en algunas zonas.
+              </div>
+            `
+          },
+          {
+            id: "a1u4l2",
+            title: "Ejercicio: Comida",
+            type: "exercise",
+            content: `
+              <h2>Ejercicios – Comida</h2>
+              <div class="exercise" data-exercise="1">
+                <h3>1. “I _____ coffee in the morning.”</h3>
+                <div class="exercise-options">
+                  <button class="option-btn" data-correct="true">like</button>
+                  <button class="option-btn" data-correct="false">likes</button>
+                  <button class="option-btn" data-correct="false">liking</button>
+                  <button class="option-btn" data-correct="false">liked</button>
+                </div>
+                <div class="feedback"></div>
+              </div>
+              <div class="exercise" data-exercise="2">
+                <h3>2. ¿Cómo se dice “No me gusta el pescado”?</h3>
+                <div class="exercise-options">
+                  <button class="option-btn" data-correct="false">I no like fish</button>
+                  <button class="option-btn" data-correct="true">I don’t like fish</button>
+                  <button class="option-btn" data-correct="false">I not like fish</button>
+                  <button class="option-btn" data-correct="false">I doesn’t like fish</button>
+                </div>
+                <div class="feedback"></div>
+              </div>
+            `
+          }
+        ]
+      },
+      {
+        id: "a1u5",
+        level: "A1",
+        number: 5,
+        title: "La ciudad y direcciones",
+        description: "Lugares y cómo llegar",
+        lessons: [
+          {
+            id: "a1u5l1",
+            title: "Lugares de la ciudad",
+            type: "explanation",
+            content: `
+              <h2>Lugares comunes</h2>
+              <div class="vocab-grid">
+                <div class="vocab-item"><span class="target">supermarket</span><span>supermercado</span></div>
+                <div class="vocab-item"><span class="target">bank</span><span>banco</span></div>
+                <div class="vocab-item"><span class="target">pharmacy / chemist</span><span>farmacia</span></div>
+                <div class="vocab-item"><span class="target">train station</span><span>estación de tren</span></div>
+                <div class="vocab-item"><span class="target">bus stop</span><span>parada de autobús</span></div>
+                <div class="vocab-item"><span class="target">hospital</span><span>hospital</span></div>
+                <div class="vocab-item"><span class="target">park</span><span>parque</span></div>
+                <div class="vocab-item"><span class="target">restaurant</span><span>restaurante</span></div>
+              </div>
+              <h2>There is / There are</h2>
+              <p><strong>There is</strong> (singular) · <strong>There are</strong> (plural)</p>
+              <ul>
+                <li>There is a bank near here.</li>
+                <li>There are two pharmacies on this street.</li>
+              </ul>
+              <div class="comparison-box">
+                <strong>⚠️ Trampa:</strong> No digas “Have a bank here”. Se dice <strong>There is a bank here</strong>.
+              </div>
+            `
+          },
+          {
+            id: "a1u5l2",
+            title: "Ejercicio: Ciudad",
+            type: "exercise",
+            content: `
+              <h2>Ejercicios – Ciudad</h2>
+              <div class="exercise" data-exercise="1">
+                <h3>1. “_____ a supermarket next to the bank.”</h3>
+                <div class="exercise-options">
+                  <button class="option-btn" data-correct="false">There are</button>
+                  <button class="option-btn" data-correct="true">There is</button>
+                  <button class="option-btn" data-correct="false">It is</button>
+                  <button class="option-btn" data-correct="false">Has</button>
+                </div>
+                <div class="feedback"></div>
+              </div>
+              <div class="exercise" data-exercise="2">
+                <h3>2. “_____ three parks in my city.”</h3>
+                <div class="exercise-options">
+                  <button class="option-btn" data-correct="true">There are</button>
+                  <button class="option-btn" data-correct="false">There is</button>
+                  <button class="option-btn" data-correct="false">They are</button>
+                  <button class="option-btn" data-correct="false">Have</button>
+                </div>
+                <div class="feedback"></div>
+              </div>
+            `
+          }
+        ]
+      },
+      {
+        id: "a1u6",
+        level: "A1",
+        number: 6,
+        title: "Tiempo libre y hobbies",
+        description: "Lo que te gusta hacer",
+        lessons: [
+          {
+            id: "a1u6l1",
+            title: "Hobbies y tiempo libre",
+            type: "explanation",
+            content: `
+              <h2>Actividades de tiempo libre</h2>
+              <div class="vocab-grid">
+                <div class="vocab-item"><span class="target">play football / soccer</span><span>jugar al fútbol</span></div>
+                <div class="vocab-item"><span class="target">play tennis</span><span>jugar al tenis</span></div>
+                <div class="vocab-item"><span class="target">watch TV / films</span><span>ver la tele / películas</span></div>
+                <div class="vocab-item"><span class="target">listen to music</span><span>escuchar música</span></div>
+                <div class="vocab-item"><span class="target">read books</span><span>leer libros</span></div>
+                <div class="vocab-item"><span class="target">go to the gym</span><span>ir al gimnasio</span></div>
+                <div class="vocab-item"><span class="target">go swimming</span><span>ir a nadar</span></div>
+                <div class="vocab-item"><span class="target">cook</span><span>cocinar</span></div>
+                <div class="vocab-item"><span class="target">travel</span><span>viajar</span></div>
+                <div class="vocab-item"><span class="target">play video games</span><span>jugar videojuegos</span></div>
+              </div>
+              <h2>Like + -ing</h2>
+              <p>Para hablar de hobbies usamos <strong>like / love / enjoy + verbo-ing</strong>:</p>
+              <ul>
+                <li>I like <strong>playing</strong> football.</li>
+                <li>She loves <strong>reading</strong>.</li>
+                <li>We enjoy <strong>travelling</strong>.</li>
+              </ul>
+              <div class="comparison-box">
+                <strong>⚠️ Trampa:</strong> No digas “I like play football”. Es <strong>I like playing football</strong>.
+              </div>
+            `
+          },
+          {
+            id: "a1u6l2",
+            title: "Ejercicio: Hobbies + Ordenar",
+            type: "exercise",
+            content: `
+              <h2>Ejercicios – Hobbies</h2>
+              <div class="exercise" data-exercise="1">
+                <h3>1. “I like _____ music.”</h3>
+                <div class="exercise-options">
+                  <button class="option-btn" data-correct="false">listen</button>
+                  <button class="option-btn" data-correct="true">listening to</button>
+                  <button class="option-btn" data-correct="false">to listen</button>
+                  <button class="option-btn" data-correct="false">listens</button>
+                </div>
+                <div class="feedback"></div>
+              </div>
+              <div class="exercise" data-exercise="2">
+                <h3>2. Ordena la frase: “football / playing / I / like”</h3>
+                <div class="exercise-options">
+                  <button class="option-btn" data-correct="false">I football like playing</button>
+                  <button class="option-btn" data-correct="true">I like playing football</button>
+                  <button class="option-btn" data-correct="false">Playing I like football</button>
+                  <button class="option-btn" data-correct="false">Like I playing football</button>
+                </div>
+                <div class="feedback"></div>
+              </div>
+              <div class="exercise" data-exercise="3">
+                <h3>3. Ordena: “books / reading / She / loves”</h3>
+                <div class="exercise-options">
+                  <button class="option-btn" data-correct="true">She loves reading books</button>
+                  <button class="option-btn" data-correct="false">She reading loves books</button>
+                  <button class="option-btn" data-correct="false">Loves she reading books</button>
+                  <button class="option-btn" data-correct="false">She books loves reading</button>
+                </div>
+                <div class="feedback"></div>
+              </div>
+            `
+          }
+        ]
+      },
+      {
+        id: "a1u7",
+        level: "A1",
+        number: 7,
+        title: "Compras y ropa",
+        description: "Comprar ropa y preguntar precios",
+        lessons: [
+          {
+            id: "a1u7l1",
+            title: "Ropa y compras",
+            type: "explanation",
+            content: `
+              <h2>Ropa básica</h2>
+              <div class="vocab-grid">
+                <div class="vocab-item"><span class="target">shirt</span><span>camisa</span></div>
+                <div class="vocab-item"><span class="target">t-shirt</span><span>camiseta</span></div>
+                <div class="vocab-item"><span class="target">trousers / pants</span><span>pantalones</span></div>
+                <div class="vocab-item"><span class="target">jeans</span><span>vaqueros</span></div>
+                <div class="vocab-item"><span class="target">dress</span><span>vestido</span></div>
+                <div class="vocab-item"><span class="target">skirt</span><span>falda</span></div>
+                <div class="vocab-item"><span class="target">shoes</span><span>zapatos</span></div>
+                <div class="vocab-item"><span class="target">jacket</span><span>chaqueta</span></div>
+                <div class="vocab-item"><span class="target">coat</span><span>abrigo</span></div>
+                <div class="vocab-item"><span class="target">hat</span><span>sombrero / gorra</span></div>
+              </div>
+              <h2>Preguntas útiles</h2>
+              <ul>
+                <li><strong>How much is it?</strong> → ¿Cuánto cuesta?</li>
+                <li><strong>How much are they?</strong> → ¿Cuánto cuestan?</li>
+                <li><strong>Can I try it on?</strong> → ¿Puedo probármelo?</li>
+                <li><strong>Do you have this in blue / size M?</strong> → ¿Lo tienen en azul / talla M?</li>
+              </ul>
+              <div class="comparison-box">
+                <strong>⚠️ Trampa:</strong> “Trousers” (UK) es plural. Se dice “These trousers <strong>are</strong> nice”, no “is”.
+              </div>
+            `
+          },
+          {
+            id: "a1u7l2",
+            title: "Ejercicio: Compras + Ordenar",
+            type: "exercise",
+            content: `
+              <h2>Ejercicios – Compras</h2>
+              <div class="exercise" data-exercise="1">
+                <h3>1. “How much _____ this shirt?”</h3>
+                <div class="exercise-options">
+                  <button class="option-btn" data-correct="true">is</button>
+                  <button class="option-btn" data-correct="false">are</button>
+                  <button class="option-btn" data-correct="false">cost</button>
+                  <button class="option-btn" data-correct="false">have</button>
+                </div>
+                <div class="feedback"></div>
+              </div>
+              <div class="exercise" data-exercise="2">
+                <h3>2. Ordena: “try / Can / on / I / it ?”</h3>
+                <div class="exercise-options">
+                  <button class="option-btn" data-correct="true">Can I try it on?</button>
+                  <button class="option-btn" data-correct="false">Can try I it on?</button>
+                  <button class="option-btn" data-correct="false">I can try on it?</button>
+                  <button class="option-btn" data-correct="false">Try can I it on?</button>
+                </div>
+                <div class="feedback"></div>
+              </div>
+              <div class="exercise" data-exercise="3">
+                <h3>3. Ordena: “much / How / are / they ?”</h3>
+                <div class="exercise-options">
+                  <button class="option-btn" data-correct="false">How are much they?</button>
+                  <button class="option-btn" data-correct="true">How much are they?</button>
+                  <button class="option-btn" data-correct="false">How they are much?</button>
+                  <button class="option-btn" data-correct="false">Much how are they?</button>
+                </div>
+                <div class="feedback"></div>
+              </div>
+            `
+          }
+        ]
+      },
+      {
+        id: "a1u8",
+        level: "A1",
+        number: 8,
+        title: "Clima, estaciones y planes",
+        description: "Hablar del tiempo y hacer planes",
+        lessons: [
+          {
+            id: "a1u8l1",
+            title: "Clima y planes",
+            type: "explanation",
+            content: `
+              <h2>El clima</h2>
+              <div class="vocab-grid">
+                <div class="vocab-item"><span class="target">It’s sunny</span><span>Hace sol</span></div>
+                <div class="vocab-item"><span class="target">It’s rainy / It’s raining</span><span>Está lloviendo</span></div>
+                <div class="vocab-item"><span class="target">It’s cloudy</span><span>Está nublado</span></div>
+                <div class="vocab-item"><span class="target">It’s windy</span><span>Hace viento</span></div>
+                <div class="vocab-item"><span class="target">It’s cold / hot</span><span>Hace frío / calor</span></div>
+                <div class="vocab-item"><span class="target">It’s snowing</span><span>Está nevando</span></div>
+              </div>
+              <h2>Estaciones</h2>
+              <div class="vocab-grid">
+                <div class="vocab-item"><span class="target">spring</span><span>primavera</span></div>
+                <div class="vocab-item"><span class="target">summer</span><span>verano</span></div>
+                <div class="vocab-item"><span class="target">autumn / fall</span><span>otoño</span></div>
+                <div class="vocab-item"><span class="target">winter</span><span>invierno</span></div>
+              </div>
+              <h2>Planes – going to</h2>
+              <p>Para planes e intenciones usamos <strong>be going to</strong>:</p>
+              <ul>
+                <li>I <strong>am going to</strong> visit my family.</li>
+                <li>She <strong>is going to</strong> study English.</li>
+                <li>We <strong>are going to</strong> travel next month.</li>
+              </ul>
+              <div class="comparison-box">
+                <strong>⚠️ Trampa:</strong> No digas “I going to…”. Siempre lleva el verbo <em>to be</em>: <strong>I am going to…</strong>
+              </div>
+            `
+          },
+          {
+            id: "a1u8l2",
+            title: "Ejercicio: Clima y planes + Ordenar",
+            type: "exercise",
+            content: `
+              <h2>Ejercicios – Clima y planes</h2>
+              <div class="exercise" data-exercise="1">
+                <h3>1. “_____ sunny today.”</h3>
+                <div class="exercise-options">
+                  <button class="option-btn" data-correct="false">Is</button>
+                  <button class="option-btn" data-correct="true">It’s</button>
+                  <button class="option-btn" data-correct="false">There is</button>
+                  <button class="option-btn" data-correct="false">Has</button>
+                </div>
+                <div class="feedback"></div>
+              </div>
+              <div class="exercise" data-exercise="2">
+                <h3>2. Ordena: “going / I / am / to / travel”</h3>
+                <div class="exercise-options">
+                  <button class="option-btn" data-correct="true">I am going to travel</button>
+                  <button class="option-btn" data-correct="false">I going am to travel</button>
+                  <button class="option-btn" data-correct="false">Am I going to travel</button>
+                  <button class="option-btn" data-correct="false">I am to going travel</button>
+                </div>
+                <div class="feedback"></div>
+              </div>
+              <div class="exercise" data-exercise="3">
+                <h3>3. Ordena: “to / She / is / going / study”</h3>
+                <div class="exercise-options">
+                  <button class="option-btn" data-correct="false">She is to going study</button>
+                  <button class="option-btn" data-correct="true">She is going to study</button>
+                  <button class="option-btn" data-correct="false">She going is to study</button>
+                  <button class="option-btn" data-correct="false">Is she going to study</button>
+                </div>
+                <div class="feedback"></div>
+              </div>
+            `
+          }
+        ]
+      }
+    ]
+  },
+  it: {
+    name: "Italiano",
+    flag: "🇮🇹",
+    units: [
+      {
+        id: "a1u1",
+        level: "A1",
+        number: 1,
+        title: "Presentaciones y saludos",
+        description: "Presentarse, saludar y dar información personal básica",
+        lessons: [
+          {
+            id: "a1u1l1",
+            title: "Saludos y presentaciones",
+            type: "explanation",
+            content: `
+              <h2>1. Saludos básicos</h2>
+              <p>En italiano los saludos también dependen del momento del día y de la formalidad:</p>
+              <div class="vocab-grid">
+                <div class="vocab-item"><span class="target">Ciao</span><span>Hola / Adiós (informal)</span></div>
+                <div class="vocab-item"><span class="target">Buongiorno</span><span>Buenos días</span></div>
+                <div class="vocab-item"><span class="target">Buonasera</span><span>Buenas tardes / noches</span></div>
+                <div class="vocab-item"><span class="target">Buonanotte</span><span>Buenas noches (despedida)</span></div>
+                <div class="vocab-item"><span class="target">Arrivederci</span><span>Adiós (formal)</span></div>
+                <div class="vocab-item"><span class="target">A presto</span><span>Hasta pronto</span></div>
+                <div class="vocab-item"><span class="target">Piacere</span><span>Encantado/a</span></div>
+                <div class="vocab-item"><span class="target">Come stai? / Come sta?</span><span>¿Cómo estás? (inf/form)</span></div>
+              </div>
+
+              <h2>2. El verbo <em>essere</em> y <em>stare</em></h2>
+              <p>Italiano distingue (como el español) entre <strong>essere</strong> (ser) y <strong>stare</strong> (estar), pero el uso no es idéntico.</p>
+              <div class="vocab-grid">
+                <div class="vocab-item"><span class="target">Io sono</span><span>Yo soy</span></div>
+                <div class="vocab-item"><span class="target">Tu sei</span><span>Tú eres</span></div>
+                <div class="vocab-item"><span class="target">Lui / Lei è</span><span>Él / Ella es</span></div>
+                <div class="vocab-item"><span class="target">Noi siamo</span><span>Nosotros somos</span></div>
+                <div class="vocab-item"><span class="target">Voi siete</span><span>Vosotros sois</span></div>
+                <div class="vocab-item"><span class="target">Loro sono</span><span>Ellos son</span></div>
+              </div>
+
+              <div class="comparison-box">
+                <strong>⚠️ Comparación:</strong><br>
+                • “Sono spagnolo” = Soy español<br>
+                • “Sto bene” = Estoy bien<br>
+                • “Sono a casa” = Estoy en casa (aquí se usa <em>essere</em>, no <em>stare</em>)
+              </div>
+
+              <h2>3. Preguntas básicas</h2>
+              <ul>
+                <li><strong>Come ti chiami?</strong> → ¿Cómo te llamas?</li>
+                <li><strong>Di dove sei?</strong> → ¿De dónde eres?</li>
+                <li><strong>Quanti anni hai?</strong> → ¿Cuántos años tienes?</li>
+                <li><strong>Cosa fai nella vita?</strong> → ¿A qué te dedicas?</li>
+              </ul>
+
+              <div class="comparison-box">
+                <strong>Trampa típica:</strong> En italiano sí se dice <em>“Ho 25 anni”</em> (como en español). 
+                ¡No copies el inglés aquí!
+              </div>
+            `
+          },
+          {
+            id: "a1u1l2",
+            title: "Ejercicio: Saludos y essere",
+            type: "exercise",
+            content: `
+              <h2>Ejercicio 1 – Elige la respuesta correcta</h2>
+              <div class="exercise" data-exercise="1">
+                <h3>1. ¿Cómo se dice “Encantado” de forma natural?</h3>
+                <div class="exercise-options">
+                  <button class="option-btn" data-correct="false">Buonanotte</button>
+                  <button class="option-btn" data-correct="true">Piacere</button>
+                  <button class="option-btn" data-correct="false">Arrivederci</button>
+                  <button class="option-btn" data-correct="false">Come stai?</button>
+                </div>
+                <div class="feedback"></div>
+              </div>
+
+              <div class="exercise" data-exercise="2">
+                <h3>2. Completa: “Lei _____ italiana.”</h3>
+                <div class="exercise-options">
+                  <button class="option-btn" data-correct="false">sono</button>
+                  <button class="option-btn" data-correct="false">sei</button>
+                  <button class="option-btn" data-correct="true">è</button>
+                  <button class="option-btn" data-correct="false">siamo</button>
+                </div>
+                <div class="feedback"></div>
+              </div>
+
+              <div class="exercise" data-exercise="3">
+                <h3>3. ¿Cómo preguntas la edad en italiano?</h3>
+                <div class="exercise-options">
+                  <button class="option-btn" data-correct="false">Quanti anni sei?</button>
+                  <button class="option-btn" data-correct="true">Quanti anni hai?</button>
+                  <button class="option-btn" data-correct="false">Come vecchio sei?</button>
+                  <button class="option-btn" data-correct="false">Che età hai tu?</button>
+                </div>
+                <div class="feedback"></div>
+              </div>
+
+              <div class="exercise" data-exercise="4">
+                <h3>4. “Sono di Madrid” significa:</h3>
+                <div class="exercise-options">
+                  <button class="option-btn" data-correct="true">Soy de Madrid</button>
+                  <button class="option-btn" data-correct="false">Estoy en Madrid</button>
+                  <button class="option-btn" data-correct="false">Voy a Madrid</button>
+                  <button class="option-btn" data-correct="false">Me gusta Madrid</button>
+                </div>
+                <div class="feedback"></div>
+              </div>
+            `
+          },
+          {
+            id: "a1u1l3",
+            title: "Nacionalidades y profesiones",
+            type: "explanation",
+            content: `
+              <h2>Nacionalidades</h2>
+              <div class="vocab-grid">
+                <div class="vocab-item"><span class="target">spagnolo / spagnola</span><span>español/a</span></div>
+                <div class="vocab-item"><span class="target">inglese</span><span>inglés/esa</span></div>
+                <div class="vocab-item"><span class="target">americano / americana</span><span>americano/a</span></div>
+                <div class="vocab-item"><span class="target">italiano / italiana</span><span>italiano/a</span></div>
+                <div class="vocab-item"><span class="target">francese</span><span>francés/esa</span></div>
+                <div class="vocab-item"><span class="target">tedesco / tedesca</span><span>alemán/ana</span></div>
+                <div class="vocab-item"><span class="target">messicano / messicana</span><span>mexicano/a</span></div>
+                <div class="vocab-item"><span class="target">cinese</span><span>chino/a</span></div>
+              </div>
+
+              <h2>Profesiones</h2>
+              <div class="vocab-grid">
+                <div class="vocab-item"><span class="target">insegnante</span><span>profesor/a</span></div>
+                <div class="vocab-item"><span class="target">studente / studentessa</span><span>estudiante</span></div>
+                <div class="vocab-item"><span class="target">medico / dottoressa</span><span>médico/a</span></div>
+                <div class="vocab-item"><span class="target">ingegnere</span><span>ingeniero/a</span></div>
+                <div class="vocab-item"><span class="target">infermiere / infermiera</span><span>enfermero/a</span></div>
+                <div class="vocab-item"><span class="target">cameriere / cameriera</span><span>camarero/a</span></div>
+                <div class="vocab-item"><span class="target">programmatore</span><span>programador/a</span></div>
+                <div class="vocab-item"><span class="target">avvocato / avvocatessa</span><span>abogado/a</span></div>
+              </div>
+
+              <div class="comparison-box">
+                <strong>Nota:</strong> En italiano muchas profesiones tienen forma masculina y femenina. 
+                Además, se usa el artículo: “Sono un insegnante” / “Sono un’insegnante”.
+              </div>
+            `
+          }
+        ]
+      },
+      {
+        id: "a1u2",
+        level: "A1",
+        number: 2,
+        title: "La familia y las personas",
+        description: "Describir familia, aspecto físico y personalidad",
+        lessons: [
+          {
+            id: "a1u2l1",
+            title: "La familia",
+            type: "explanation",
+            content: `
+              <h2>Miembros de la familia</h2>
+              <div class="vocab-grid">
+                <div class="vocab-item"><span class="target">madre / mamma</span><span>madre / mamá</span></div>
+                <div class="vocab-item"><span class="target">padre / papà</span><span>padre / papá</span></div>
+                <div class="vocab-item"><span class="target">genitori</span><span>padres</span></div>
+                <div class="vocab-item"><span class="target">fratello</span><span>hermano</span></div>
+                <div class="vocab-item"><span class="target">sorella</span><span>hermana</span></div>
+                <div class="vocab-item"><span class="target">figlio</span><span>hijo</span></div>
+                <div class="vocab-item"><span class="target">figlia</span><span>hija</span></div>
+                <div class="vocab-item"><span class="target">marito</span><span>marido</span></div>
+                <div class="vocab-item"><span class="target">moglie</span><span>esposa</span></div>
+                <div class="vocab-item"><span class="target">nonno</span><span>abuelo</span></div>
+                <div class="vocab-item"><span class="target">nonna</span><span>abuela</span></div>
+                <div class="vocab-item"><span class="target">zio / zia</span><span>tío / tía</span></div>
+              </div>
+
+              <h2>Adjetivos posesivos</h2>
+              <div class="vocab-grid">
+                <div class="vocab-item"><span class="target">il mio / la mia</span><span>mi</span></div>
+                <div class="vocab-item"><span class="target">il tuo / la tua</span><span>tu</span></div>
+                <div class="vocab-item"><span class="target">il suo / la sua</span><span>su</span></div>
+                <div class="vocab-item"><span class="target">il nostro / la nostra</span><span>nuestro/a</span></div>
+                <div class="vocab-item"><span class="target">il vostro / la vostra</span><span>vuestro/a</span></div>
+                <div class="vocab-item"><span class="target">il loro / la loro</span><span>su (de ellos)</span></div>
+              </div>
+
+              <div class="comparison-box">
+                <strong>Importante:</strong> En italiano los posesivos <strong>concuerdan</strong> en género y número 
+                y casi siempre van con artículo: “il mio fratello”, “la mia sorella”.
+              </div>
+            `
+          },
+          {
+            id: "a1u2l2",
+            title: "Ejercicio: Familia y posesivos",
+            type: "exercise",
+            content: `
+              <h2>Ejercicio – Familia</h2>
+              <div class="exercise" data-exercise="1">
+                <h3>1. “Questa è _____ sorella.” (ella)</h3>
+                <div class="exercise-options">
+                  <button class="option-btn" data-correct="false">il suo</button>
+                  <button class="option-btn" data-correct="true">la sua</button>
+                  <button class="option-btn" data-correct="false">il loro</button>
+                  <button class="option-btn" data-correct="false">la tua</button>
+                </div>
+                <div class="feedback"></div>
+              </div>
+
+              <div class="exercise" data-exercise="2">
+                <h3>2. ¿Cómo se dice “mis padres”?</h3>
+                <div class="exercise-options">
+                  <button class="option-btn" data-correct="true">i miei genitori</button>
+                  <button class="option-btn" data-correct="false">i miei padri</button>
+                  <button class="option-btn" data-correct="false">il mio genitori</button>
+                  <button class="option-btn" data-correct="false">miei genitori</button>
+                </div>
+                <div class="feedback"></div>
+              </div>
+
+              <div class="exercise" data-exercise="3">
+                <h3>3. “Lui è mio _____.” (hermano)</h3>
+                <div class="exercise-options">
+                  <button class="option-btn" data-correct="false">sorella</button>
+                  <button class="option-btn" data-correct="true">fratello</button>
+                  <button class="option-btn" data-correct="false">padre</button>
+                  <button class="option-btn" data-correct="false">zio</button>
+                </div>
+                <div class="feedback"></div>
+              </div>
+            `
+          }
+        ]
+      },
+      {
+        id: "a1u3",
+        level: "A1",
+        number: 3,
+        title: "Rutinas diarias",
+        description: "Hablar de la rutina y frecuencias",
+        lessons: [
+          {
+            id: "a1u3l1",
+            title: "Presente indicativo y rutinas",
+            type: "explanation",
+            content: `
+              <h2>Presente de indicativo – Rutinas</h2>
+              <p>Usamos el <strong>presente de indicativo</strong> para hábitos y rutinas.</p>
+              <div class="vocab-grid">
+                <div class="vocab-item"><span class="target">Mi alzo</span><span>Me levanto</span></div>
+                <div class="vocab-item"><span class="target">Faccio colazione</span><span>Desayuno</span></div>
+                <div class="vocab-item"><span class="target">Vado a lavoro</span><span>Voy al trabajo</span></div>
+                <div class="vocab-item"><span class="target">Pranzo</span><span>Almuerzo</span></div>
+                <div class="vocab-item"><span class="target">Ceno</span><span>Ceno</span></div>
+                <div class="vocab-item"><span class="target">Vado a letto</span><span>Me acuesto</span></div>
+              </div>
+              <h2>Avverbi di frequenza</h2>
+              <div class="vocab-grid">
+                <div class="vocab-item"><span class="target">sempre</span><span>siempre</span></div>
+                <div class="vocab-item"><span class="target">di solito</span><span>normalmente</span></div>
+                <div class="vocab-item"><span class="target">spesso</span><span>a menudo</span></div>
+                <div class="vocab-item"><span class="target">a volte</span><span>a veces</span></div>
+                <div class="vocab-item"><span class="target">raramente</span><span>rara vez</span></div>
+                <div class="vocab-item"><span class="target">mai</span><span>nunca</span></div>
+              </div>
+              <div class="comparison-box">
+                <strong>⚠️ Trampa:</strong> En italiano el adverbio suele ir después del verbo: “Mi alzo <strong>sempre</strong> alle 7”.
+              </div>
+              <div class="comparison-box">
+                <strong>Cultura:</strong> En Italia el desayuno suele ser dulce y ligero (caffè + cornetto). La cena es más importante y se come más tarde que en muchos países anglosajones.
+              </div>
+            `
+          },
+          {
+            id: "a1u3l2",
+            title: "Ejercicio: Rutinas",
+            type: "exercise",
+            content: `
+              <h2>Ejercicios – Rutinas</h2>
+              <div class="exercise" data-exercise="1">
+                <h3>1. “Io _____ alle 7 ogni giorno.”</h3>
+                <div class="exercise-options">
+                  <button class="option-btn" data-correct="false">alzare</button>
+                  <button class="option-btn" data-correct="true">mi alzo</button>
+                  <button class="option-btn" data-correct="false">alzo</button>
+                  <button class="option-btn" data-correct="false">alzarsi</button>
+                </div>
+                <div class="feedback"></div>
+              </div>
+              <div class="exercise" data-exercise="2">
+                <h3>2. “Lei _____ colazione alle 8.”</h3>
+                <div class="exercise-options">
+                  <button class="option-btn" data-correct="false">faccio</button>
+                  <button class="option-btn" data-correct="true">fa</button>
+                  <button class="option-btn" data-correct="false">fai</button>
+                  <button class="option-btn" data-correct="false">fanno</button>
+                </div>
+                <div class="feedback"></div>
+              </div>
+            `
+          }
+        ]
+      },
+      {
+        id: "a1u4",
+        level: "A1",
+        number: 4,
+        title: "Comida y bebida",
+        description: "Gustos alimentarios y restaurante",
+        lessons: [
+          {
+            id: "a1u4l1",
+            title: "Comida y gustos",
+            type: "explanation",
+            content: `
+              <h2>Vocabulario de comida</h2>
+              <div class="vocab-grid">
+                <div class="vocab-item"><span class="target">colazione</span><span>desayuno</span></div>
+                <div class="vocab-item"><span class="target">pranzo</span><span>almuerzo</span></div>
+                <div class="vocab-item"><span class="target">cena</span><span>cena</span></div>
+                <div class="vocab-item"><span class="target">pane</span><span>pan</span></div>
+                <div class="vocab-item"><span class="target">formaggio</span><span>queso</span></div>
+                <div class="vocab-item"><span class="target">pollo</span><span>pollo</span></div>
+                <div class="vocab-item"><span class="target">pesce</span><span>pescado</span></div>
+                <div class="vocab-item"><span class="target">verdure</span><span>verduras</span></div>
+                <div class="vocab-item"><span class="target">frutta</span><span>fruta</span></div>
+                <div class="vocab-item"><span class="target">acqua / succo</span><span>agua / zumo</span></div>
+              </div>
+              <h2>Expresar gustos – mi piace</h2>
+              <p><strong>Mi piace</strong> + singular · <strong>Mi piacciono</strong> + plural</p>
+              <ul>
+                <li>Mi piace la pizza.</li>
+                <li>Mi piacciono i libri.</li>
+                <li>Non mi piace il pesce.</li>
+              </ul>
+              <div class="comparison-box">
+                <strong>⚠️ Trampa importante:</strong> “Mi piace” concuerda con lo que gusta, no con la persona. 
+                “Me gustan los perros” = <strong>Mi piacciono i cani</strong> (no “Mi piace i cani”).
+              </div>
+            `
+          },
+          {
+            id: "a1u4l2",
+            title: "Ejercicio: Comida",
+            type: "exercise",
+            content: `
+              <h2>Ejercicios – Comida</h2>
+              <div class="exercise" data-exercise="1">
+                <h3>1. “_____ la pasta.” (a mí me gusta)</h3>
+                <div class="exercise-options">
+                  <button class="option-btn" data-correct="true">Mi piace</button>
+                  <button class="option-btn" data-correct="false">Mi piacciono</button>
+                  <button class="option-btn" data-correct="false">Ti piace</button>
+                  <button class="option-btn" data-correct="false">Ci piace</button>
+                </div>
+                <div class="feedback"></div>
+              </div>
+              <div class="exercise" data-exercise="2">
+                <h3>2. “_____ i gelati.” (a mí me gustan)</h3>
+                <div class="exercise-options">
+                  <button class="option-btn" data-correct="false">Mi piace</button>
+                  <button class="option-btn" data-correct="true">Mi piacciono</button>
+                  <button class="option-btn" data-correct="false">Mi piaci</button>
+                  <button class="option-btn" data-correct="false">Mi piacciono il</button>
+                </div>
+                <div class="feedback"></div>
+              </div>
+            `
+          }
+        ]
+      },
+      {
+        id: "a1u5",
+        level: "A1",
+        number: 5,
+        title: "La ciudad y direcciones",
+        description: "Lugares y cómo llegar",
+        lessons: [
+          {
+            id: "a1u5l1",
+            title: "Lugares de la ciudad",
+            type: "explanation",
+            content: `
+              <h2>Lugares comunes</h2>
+              <div class="vocab-grid">
+                <div class="vocab-item"><span class="target">supermercato</span><span>supermercado</span></div>
+                <div class="vocab-item"><span class="target">banca</span><span>banco</span></div>
+                <div class="vocab-item"><span class="target">farmacia</span><span>farmacia</span></div>
+                <div class="vocab-item"><span class="target">stazione</span><span>estación</span></div>
+                <div class="vocab-item"><span class="target">fermata dell’autobus</span><span>parada de autobús</span></div>
+                <div class="vocab-item"><span class="target">ospedale</span><span>hospital</span></div>
+                <div class="vocab-item"><span class="target">parco</span><span>parque</span></div>
+                <div class="vocab-item"><span class="target">ristorante</span><span>restaurante</span></div>
+              </div>
+              <h2>C’è / Ci sono</h2>
+              <p><strong>C’è</strong> (singular) · <strong>Ci sono</strong> (plural)</p>
+              <ul>
+                <li>C’è una banca qui vicino.</li>
+                <li>Ci sono due farmacie in questa via.</li>
+              </ul>
+              <div class="comparison-box">
+                <strong>⚠️ Trampa:</strong> No digas “Ha una banca qui”. Se dice <strong>C’è una banca qui</strong>.
+              </div>
+            `
+          },
+          {
+            id: "a1u5l2",
+            title: "Ejercicio: Ciudad",
+            type: "exercise",
+            content: `
+              <h2>Ejercicios – Ciudad</h2>
+              <div class="exercise" data-exercise="1">
+                <h3>1. “_____ un supermercato vicino alla banca.”</h3>
+                <div class="exercise-options">
+                  <button class="option-btn" data-correct="false">Ci sono</button>
+                  <button class="option-btn" data-correct="true">C’è</button>
+                  <button class="option-btn" data-correct="false">È</button>
+                  <button class="option-btn" data-correct="false">Ha</button>
+                </div>
+                <div class="feedback"></div>
+              </div>
+              <div class="exercise" data-exercise="2">
+                <h3>2. “_____ tre parchi nella mia città.”</h3>
+                <div class="exercise-options">
+                  <button class="option-btn" data-correct="true">Ci sono</button>
+                  <button class="option-btn" data-correct="false">C’è</button>
+                  <button class="option-btn" data-correct="false">Sono</button>
+                  <button class="option-btn" data-correct="false">Hanno</button>
+                </div>
+                <div class="feedback"></div>
+              </div>
+            `
+          }
+        ]
+      },
+      {
+        id: "a1u6",
+        level: "A1",
+        number: 6,
+        title: "Tiempo libre y hobbies",
+        description: "Lo que te gusta hacer",
+        lessons: [
+          {
+            id: "a1u6l1",
+            title: "Hobbies y tiempo libre",
+            type: "explanation",
+            content: `
+              <h2>Attività del tempo libero</h2>
+              <div class="vocab-grid">
+                <div class="vocab-item"><span class="target">giocare a calcio</span><span>jugar al fútbol</span></div>
+                <div class="vocab-item"><span class="target">giocare a tennis</span><span>jugar al tenis</span></div>
+                <div class="vocab-item"><span class="target">guardare la TV / film</span><span>ver la tele / películas</span></div>
+                <div class="vocab-item"><span class="target">ascoltare musica</span><span>escuchar música</span></div>
+                <div class="vocab-item"><span class="target">leggere libri</span><span>leer libros</span></div>
+                <div class="vocab-item"><span class="target">andare in palestra</span><span>ir al gimnasio</span></div>
+                <div class="vocab-item"><span class="target">nuotare</span><span>nadar</span></div>
+                <div class="vocab-item"><span class="target">cucinare</span><span>cocinar</span></div>
+                <div class="vocab-item"><span class="target">viaggiare</span><span>viajar</span></div>
+                <div class="vocab-item"><span class="target">giocare ai videogiochi</span><span>jugar videojuegos</span></div>
+              </div>
+              <h2>Mi piace + infinito</h2>
+              <p>Para hobbies usamos <strong>mi piace + infinito</strong>:</p>
+              <ul>
+                <li>Mi piace <strong>giocare</strong> a calcio.</li>
+                <li>Le piace <strong>leggere</strong>.</li>
+                <li>Ci piace <strong>viaggiare</strong>.</li>
+              </ul>
+              <div class="comparison-box">
+                <strong>⚠️ Trampa:</strong> En italiano se usa el infinitivo, no el gerundio: “Mi piace giocare” (no “giocando”).
+              </div>
+            `
+          },
+          {
+            id: "a1u6l2",
+            title: "Ejercicio: Hobbies + Ordenar",
+            type: "exercise",
+            content: `
+              <h2>Ejercicios – Hobbies</h2>
+              <div class="exercise" data-exercise="1">
+                <h3>1. “Mi piace _____ musica.”</h3>
+                <div class="exercise-options">
+                  <button class="option-btn" data-correct="false">ascolto</button>
+                  <button class="option-btn" data-correct="true">ascoltare</button>
+                  <button class="option-btn" data-correct="false">ascoltando</button>
+                  <button class="option-btn" data-correct="false">ascolti</button>
+                </div>
+                <div class="feedback"></div>
+              </div>
+              <div class="exercise" data-exercise="2">
+                <h3>2. Ordena: “calcio / giocare / a / Mi / piace”</h3>
+                <div class="exercise-options">
+                  <button class="option-btn" data-correct="true">Mi piace giocare a calcio</button>
+                  <button class="option-btn" data-correct="false">Mi giocare piace a calcio</button>
+                  <button class="option-btn" data-correct="false">Piace mi giocare a calcio</button>
+                  <button class="option-btn" data-correct="false">Mi piace a giocare calcio</button>
+                </div>
+                <div class="feedback"></div>
+              </div>
+              <div class="exercise" data-exercise="3">
+                <h3>3. Ordena: “libri / leggere / Le / piace”</h3>
+                <div class="exercise-options">
+                  <button class="option-btn" data-correct="false">Le leggere piace libri</button>
+                  <button class="option-btn" data-correct="true">Le piace leggere libri</button>
+                  <button class="option-btn" data-correct="false">Piace le leggere libri</button>
+                  <button class="option-btn" data-correct="false">Le piace libri leggere</button>
+                </div>
+                <div class="feedback"></div>
+              </div>
+            `
+          }
+        ]
+      },
+      {
+        id: "a1u7",
+        level: "A1",
+        number: 7,
+        title: "Compras y ropa",
+        description: "Comprar ropa y preguntar precios",
+        lessons: [
+          {
+            id: "a1u7l1",
+            title: "Ropa y compras",
+            type: "explanation",
+            content: `
+              <h2>Vestiti di base</h2>
+              <div class="vocab-grid">
+                <div class="vocab-item"><span class="target">camicia</span><span>camisa</span></div>
+                <div class="vocab-item"><span class="target">maglietta</span><span>camiseta</span></div>
+                <div class="vocab-item"><span class="target">pantaloni</span><span>pantalones</span></div>
+                <div class="vocab-item"><span class="target">jeans</span><span>vaqueros</span></div>
+                <div class="vocab-item"><span class="target">vestito</span><span>vestido</span></div>
+                <div class="vocab-item"><span class="target">gonna</span><span>falda</span></div>
+                <div class="vocab-item"><span class="target">scarpe</span><span>zapatos</span></div>
+                <div class="vocab-item"><span class="target">giacca</span><span>chaqueta</span></div>
+                <div class="vocab-item"><span class="target">cappotto</span><span>abrigo</span></div>
+                <div class="vocab-item"><span class="target">cappello</span><span>sombrero / gorra</span></div>
+              </div>
+              <h2>Preguntas útiles</h2>
+              <ul>
+                <li><strong>Quanto costa?</strong> → ¿Cuánto cuesta?</li>
+                <li><strong>Quanto costano?</strong> → ¿Cuánto cuestan?</li>
+                <li><strong>Posso provarlo?</strong> → ¿Puedo probármelo?</li>
+                <li><strong>Ce l’avete in blu / taglia M?</strong> → ¿Lo tienen en azul / talla M?</li>
+              </ul>
+              <div class="comparison-box">
+                <strong>⚠️ Trampa:</strong> “Pantaloni” es plural. Se dice “Questi pantaloni <strong>sono</strong> belli”.
+              </div>
+            `
+          },
+          {
+            id: "a1u7l2",
+            title: "Ejercicio: Compras + Ordenar",
+            type: "exercise",
+            content: `
+              <h2>Ejercicios – Compras</h2>
+              <div class="exercise" data-exercise="1">
+                <h3>1. “Quanto _____ questa camicia?”</h3>
+                <div class="exercise-options">
+                  <button class="option-btn" data-correct="true">costa</button>
+                  <button class="option-btn" data-correct="false">costano</button>
+                  <button class="option-btn" data-correct="false">costi</button>
+                  <button class="option-btn" data-correct="false">costare</button>
+                </div>
+                <div class="feedback"></div>
+              </div>
+              <div class="exercise" data-exercise="2">
+                <h3>2. Ordena: “provarlo / Posso / ?”</h3>
+                <div class="exercise-options">
+                  <button class="option-btn" data-correct="true">Posso provarlo?</button>
+                  <button class="option-btn" data-correct="false">Provarlo posso?</button>
+                  <button class="option-btn" data-correct="false">Posso lo provare?</button>
+                  <button class="option-btn" data-correct="false">Provare posso lo?</button>
+                </div>
+                <div class="feedback"></div>
+              </div>
+              <div class="exercise" data-exercise="3">
+                <h3>3. Ordena: “costano / Quanto / ?”</h3>
+                <div class="exercise-options">
+                  <button class="option-btn" data-correct="false">Quanto costano essi?</button>
+                  <button class="option-btn" data-correct="true">Quanto costano?</button>
+                  <button class="option-btn" data-correct="false">Costano quanto?</button>
+                  <button class="option-btn" data-correct="false">Quanto essi costano?</button>
+                </div>
+                <div class="feedback"></div>
+              </div>
+            `
+          }
+        ]
+      },
+      {
+        id: "a1u8",
+        level: "A1",
+        number: 8,
+        title: "Clima, estaciones y planes",
+        description: "Hablar del tiempo y hacer planes",
+        lessons: [
+          {
+            id: "a1u8l1",
+            title: "Clima y planes",
+            type: "explanation",
+            content: `
+              <h2>Il tempo</h2>
+              <div class="vocab-grid">
+                <div class="vocab-item"><span class="target">C’è il sole / Fa sole</span><span>Hace sol</span></div>
+                <div class="vocab-item"><span class="target">Piove</span><span>Llueve</span></div>
+                <div class="vocab-item"><span class="target">È nuvoloso</span><span>Está nublado</span></div>
+                <div class="vocab-item"><span class="target">C’è vento</span><span>Hace viento</span></div>
+                <div class="vocab-item"><span class="target">Fa freddo / caldo</span><span>Hace frío / calor</span></div>
+                <div class="vocab-item"><span class="target">Nevica</span><span>Nieva</span></div>
+              </div>
+              <h2>Le stagioni</h2>
+              <div class="vocab-grid">
+                <div class="vocab-item"><span class="target">primavera</span><span>primavera</span></div>
+                <div class="vocab-item"><span class="target">estate</span><span>verano</span></div>
+                <div class="vocab-item"><span class="target">autunno</span><span>otoño</span></div>
+                <div class="vocab-item"><span class="target">inverno</span><span>invierno</span></div>
+              </div>
+              <h2>Piani – stare per / andare a</h2>
+              <p>Para planes cercanos usamos <strong>stare per</strong> o <strong>andare a + infinito</strong>:</p>
+              <ul>
+                <li>Sto per uscire.</li>
+                <li>Vado a studiare inglese.</li>
+                <li>Andiamo a viaggiare il mese prossimo.</li>
+              </ul>
+              <div class="comparison-box">
+                <strong>⚠️ Nota:</strong> El futuro simple también se usa, pero en A1 “stare per” y “andare a” son muy naturales para planes inmediatos.
+              </div>
+            `
+          },
+          {
+            id: "a1u8l2",
+            title: "Ejercicio: Clima y planes + Ordenar",
+            type: "exercise",
+            content: `
+              <h2>Ejercicios – Clima y planes</h2>
+              <div class="exercise" data-exercise="1">
+                <h3>1. “_____ sole oggi.”</h3>
+                <div class="exercise-options">
+                  <button class="option-btn" data-correct="false">È</button>
+                  <button class="option-btn" data-correct="true">Fa / C’è il</button>
+                  <button class="option-btn" data-correct="false">Ha</button>
+                  <button class="option-btn" data-correct="false">Ci sono</button>
+                </div>
+                <div class="feedback"></div>
+              </div>
+              <div class="exercise" data-exercise="2">
+                <h3>2. Ordena: “studiare / a / Vado / inglese”</h3>
+                <div class="exercise-options">
+                  <button class="option-btn" data-correct="true">Vado a studiare inglese</button>
+                  <button class="option-btn" data-correct="false">Vado studiare a inglese</button>
+                  <button class="option-btn" data-correct="false">A vado studiare inglese</button>
+                  <button class="option-btn" data-correct="false">Studiare vado a inglese</button>
+                </div>
+                <div class="feedback"></div>
+              </div>
+              <div class="exercise" data-exercise="3">
+                <h3>3. Ordena: “per / Sto / uscire”</h3>
+                <div class="exercise-options">
+                  <button class="option-btn" data-correct="false">Sto uscire per</button>
+                  <button class="option-btn" data-correct="true">Sto per uscire</button>
+                  <button class="option-btn" data-correct="false">Per sto uscire</button>
+                  <button class="option-btn" data-correct="false">Uscire sto per</button>
+                </div>
+                <div class="feedback"></div>
+              </div>
+            `
+          }
+        ]
+      }
+    ]
+  }
+};
+
+// ====================== PERSISTENCE ======================
+function loadState() {
+  const saved = localStorage.getItem('polyglotLab');
+  if (saved) {
+    const data = JSON.parse(saved);
+    state.points = data.points || 0;
+    state.streak = data.streak || 0;
+    state.progress = data.progress || { en: {}, it: {} };
+  }
+  updateStats();
+  updateProgressBars();
+}
+
+function saveState() {
+  localStorage.setItem('polyglotLab', JSON.stringify({
+    points: state.points,
+    streak: state.streak,
+    progress: state.progress
+  }));
+  updateStats();
+  updateProgressBars();
+}
+
+function updateStats() {
+  document.getElementById('points').textContent = state.points;
+  document.getElementById('streak').textContent = state.streak;
+  // Count total completed lessons
+  let totalDone = 0;
+  ['en', 'it'].forEach(lang => {
+    Object.values(state.progress[lang] || {}).forEach(u => {
+      if (u.lessons) totalDone += Object.keys(u.lessons).length;
+    });
+  });
+  const el = document.getElementById('lessons-done');
+  if (el) el.textContent = totalDone;
+}
+
+function resetProgress() {
+  if (confirm('¿Seguro que quieres borrar TODO el progreso, puntos y rachas? Esta acción no se puede deshacer.')) {
+    state.points = 0;
+    state.streak = 0;
+    state.progress = { en: {}, it: {} };
+    localStorage.removeItem('polyglotLab');
+    updateStats();
+    updateProgressBars();
+    alert('Progreso reiniciado.');
+    showView('dashboard');
+  }
+}
+
+function updateProgressBars() {
+  ['en', 'it'].forEach(lang => {
+    const units = curriculum[lang].units;
+    let completedLessons = 0;
+    let totalLessons = 0;
+    units.forEach(u => {
+      totalLessons += Math.max(u.lessons.length, 1); // count empty units as 1 for now
+      const prog = state.progress[lang][u.id];
+      if (prog && prog.lessons) {
+        completedLessons += Object.keys(prog.lessons).length;
+      }
+    });
+    const pct = totalLessons ? Math.round((completedLessons / totalLessons) * 100) : 0;
+    const fill = document.getElementById(`progress-${lang}`);
+    const text = document.getElementById(`progress-${lang}-text`);
+    if (fill) fill.style.width = pct + '%';
+    if (text) text.textContent = pct + '% completado';
+  });
+}
+
+// ====================== NAVIGATION ======================
+function showView(viewId) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('view-' + viewId).classList.add('active');
+}
+
+function selectLanguage(lang) {
+  state.language = lang;
+  showUnits();
+}
+
+function showUnits() {
+  const lang = state.language;
+  const data = curriculum[lang];
+  document.getElementById('units-title').textContent = `A1 – ${data.name}`;
+  document.getElementById('units-subtitle').textContent = 'Elige una unidad para empezar';
+
+  const list = document.getElementById('units-list');
+  list.innerHTML = '';
+
+  data.units.forEach(unit => {
+    const prog = state.progress[lang][unit.id];
+    const isCompleted = prog && prog.completed;
+    const hasContent = unit.lessons.length > 0;
+
+    const card = document.createElement('div');
+    card.className = 'unit-card' + (isCompleted ? ' completed' : '');
+    card.innerHTML = `
+      <div class="unit-num">Unidad ${unit.number} · ${unit.level}</div>
+      <h3>${unit.title}</h3>
+      <p>${unit.description}</p>
+      <span class="check">✓</span>
+      ${!hasContent ? '<p style="margin-top:8px;font-size:0.8rem;color:var(--warning)">Próximamente</p>' : ''}
+    `;
+    if (hasContent) {
+      card.onclick = () => openUnit(unit.id);
+    }
+    list.appendChild(card);
+  });
+
+  showView('units');
+}
+
+function openUnit(unitId) {
+  state.currentUnit = unitId;
+  const unit = curriculum[state.language].units.find(u => u.id === unitId);
+  document.getElementById('lessons-title').textContent = `Unidad ${unit.number}: ${unit.title}`;
+
+  const list = document.getElementById('lessons-list');
+  list.innerHTML = '';
+
+  unit.lessons.forEach((lesson, idx) => {
+    const prog = state.progress[state.language][unitId];
+    const done = prog && prog.lessons && prog.lessons[lesson.id];
+
+    const item = document.createElement('div');
+    item.className = 'lesson-item' + (done ? ' completed' : '');
+    item.innerHTML = `
+      <div>
+        <h3>${lesson.title}</h3>
+        <span>${lesson.type === 'exercise' ? 'Ejercicio interactivo' : 'Explicación'}</span>
+      </div>
+      <span>${done ? '✓' : '→'}</span>
+    `;
+    item.onclick = () => openLesson(idx);
+    list.appendChild(item);
+  });
+
+  // Botón de certificado de unidad si está completa
+  const allDone = unit.lessons.every(l => {
+    const p = state.progress[state.language][unitId];
+    return p && p.lessons && p.lessons[l.id];
+  });
+  if (allDone && unit.lessons.length > 0) {
+    const certBtn = document.createElement('button');
+    certBtn.className = 'btn primary';
+    certBtn.style.marginTop = '20px';
+    certBtn.textContent = 'Generar certificado de esta unidad';
+    certBtn.onclick = () => generateCertificate(unit);
+    list.appendChild(certBtn);
+  }
+
+  showView('lessons');
+}
+
+function showLessons() {
+  openUnit(state.currentUnit);
+}
+
+function openLesson(index) {
+  state.currentLessonIndex = index;
+  const unit = curriculum[state.language].units.find(u => u.id === state.currentUnit);
+  const lesson = unit.lessons[index];
+
+  document.getElementById('lesson-badge').textContent = `${unit.level} · Unidad ${unit.number}`;
+  document.getElementById('lesson-title').textContent = lesson.title;
+  document.getElementById('lesson-content').innerHTML = lesson.content;
+
+  // Bind exercise buttons
+  document.querySelectorAll('.option-btn').forEach(btn => {
+    btn.onclick = () => checkAnswer(btn);
+  });
+
+  // Nav buttons
+  document.getElementById('btn-prev-lesson').disabled = index === 0;
+  const nextBtn = document.getElementById('btn-next-lesson');
+  if (index >= unit.lessons.length - 1) {
+    nextBtn.textContent = 'Marcar como completada';
+    nextBtn.onclick = () => completeLesson();
+  } else {
+    nextBtn.textContent = 'Siguiente';
+    nextBtn.onclick = () => nextLesson();
+  }
+
+  showView('lesson');
+}
+
+function prevLesson() {
+  if (state.currentLessonIndex > 0) {
+    openLesson(state.currentLessonIndex - 1);
+  }
+}
+
+function nextLesson() {
+  const unit = curriculum[state.language].units.find(u => u.id === state.currentUnit);
+  if (state.currentLessonIndex < unit.lessons.length - 1) {
+    openLesson(state.currentLessonIndex + 1);
+  }
+}
+
+function completeLesson() {
+  const lang = state.language;
+  const unitId = state.currentUnit;
+  const unit = curriculum[lang].units.find(u => u.id === unitId);
+  const lesson = unit.lessons[state.currentLessonIndex];
+
+  if (!state.progress[lang][unitId]) {
+    state.progress[lang][unitId] = { lessons: {}, completed: false };
+  }
+  state.progress[lang][unitId].lessons[lesson.id] = true;
+
+  // Check if unit is fully completed
+  const allDone = unit.lessons.every(l => state.progress[lang][unitId].lessons[l.id]);
+  if (allDone) {
+    state.progress[lang][unitId].completed = true;
+    state.points += 50;
+    state.streak += 1;
+  } else {
+    state.points += 15;
+  }
+
+  saveState();
+  openUnit(unitId); // volver a la lista de lecciones
+}
+
+function checkAnswer(btn) {
+  const exercise = btn.closest('.exercise');
+  const buttons = exercise.querySelectorAll('.option-btn');
+  const feedback = exercise.querySelector('.feedback');
+  const isCorrect = btn.dataset.correct === 'true';
+
+  buttons.forEach(b => {
+    b.disabled = true;
+    if (b.dataset.correct === 'true') b.classList.add('correct');
+  });
+
+  if (isCorrect) {
+    btn.classList.add('correct');
+    feedback.textContent = '¡Correcto! +5 puntos';
+    feedback.className = 'feedback show correct';
+    state.points += 5;
+    saveState();
+  } else {
+    btn.classList.add('wrong');
+    feedback.textContent = 'Incorrecto. La respuesta correcta está marcada en verde.';
+    feedback.className = 'feedback show wrong';
+  }
+}
+
+function generateCertificate(unit) {
+  const langName = curriculum[state.language].name;
+  document.getElementById('cert-name').textContent = 'Geraldo Pastor Meneses Espinoza';
+  document.getElementById('cert-level').textContent = `${unit.level} · Unidad ${unit.number}: ${unit.title} – ${langName}`;
+  document.getElementById('cert-date').textContent = new Date().toLocaleDateString('es-ES', {
+    year: 'numeric', month: 'long', day: 'numeric'
+  });
+  showView('certificate');
+}
+
+function toggleTheme() {
+  const html = document.documentElement;
+  const current = html.getAttribute('data-theme');
+  html.setAttribute('data-theme', current === 'light' ? 'dark' : 'light');
+}
+
+// ====================== INIT ======================
+loadState();
+  </script>
+</body>
+</html>
